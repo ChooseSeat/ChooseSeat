@@ -7,8 +7,8 @@ struct st_student {
     int seat; //자리
     int st_id; //학번
     int month; //시간
-    int day;
-    int hour;
+    int day; 
+    int hour; 
     int min; 
     int penalty; //신고 수
     int ismark; //0은 아직 도착 안함, 1은 도착
@@ -302,7 +302,7 @@ int extendSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
     }
   return 1;
 }
-
+//자리 
 int reportSeat(struct st_student* st[], int s[25], int size) {
   int seat_temp, tf, i;
 
@@ -329,7 +329,7 @@ int reportSeat(struct st_student* st[], int s[25], int size) {
     return 0;
   }
 }
-
+//자리 검색
 void searchSeat(struct st_student* st[], int s[25], int size) { //자리 번호로 학번과 시간 출력
     int seat_temp, temp, i;
 
@@ -346,7 +346,7 @@ void searchSeat(struct st_student* st[], int s[25], int size) { //자리 번호�
     }
     else printf("입력하신 자리는 비어있습니다.\n");
 }
-
+//데이타 저장 
 int saveData(struct st_student* st[], int size) {
     FILE* file;
 	file = fopen("seats.txt", "w");

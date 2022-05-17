@@ -139,7 +139,7 @@ int addNewSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
             d->ismark = 0;
             d->month = t->tm_mon + 1;
             d->day = t->tm_mday;
-            d->hour = t->tm_hour + 9;
+            d->hour = t->tm_hour;
             d->min = t->tm_min;
             d->penalty = 0;
             d->ismark = 0;
@@ -182,7 +182,7 @@ int editSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
         else {
           s[d->seat-1] = 0;
           d->seat = seat_temp;
-          d->hour = t->tm_hour + 9;
+          d->hour = t->tm_hour;
           d->min = t->tm_min;
           s[seat_temp - 1] = 1;
           return 1;
@@ -236,11 +236,11 @@ int markIn(struct st_student* st[], int s[25], int size, struct tm * t) {
     }
 
   if (d->min >= 45) { ///
-    if ((t->tm_hour + 9 == d->hour && t->tm_min < d->min + 15 - 60) || (t->tm_hour + 9 == d->hour + 1 && t->tm_min <= 59)) d->ismark = 1;
+    if ((t->tm_hour == d->hour && t->tm_min < d->min + 15 - 60) || (t->tm_hour == d->hour + 1 && t->tm_min <= 59)) d->ismark = 1;
     else d->ismark = 0;
   }
   else {
-    if (t->tm_hour + 9 == d->hour && t->tm_min <= d->min + 15) d->ismark = 1;
+    if (t->tm_hour == d->hour && t->tm_min <= d->min + 15) d->ismark = 1;
     else d->ismark = 0;
   }
   return 1;
@@ -267,8 +267,8 @@ int extendSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
     }
 
     if (d->min < 15) { // ex. 11:5까지 예약시간일 경우
-      if ((t->tm_hour + 9 == d->hour && t->tm_min >= d->min + 60 - 15) || (t->tm_hour + 9 == d->hour + 1 && t->tm_min <= d->min)) {
-        d->hour = t->tm_hour + 9;
+      if ((t->tm_hour == d->hour && t->tm_min >= d->min + 60 - 15) || (t->tm_hour == d->hour + 1 && t->tm_min <= d->min)) {
+        d->hour = t->tm_hour;
         d->min = t->tm_min;
         return 1;
       }
@@ -279,8 +279,8 @@ int extendSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
     }
         
     else if (d->min == 15) { // ex. 11:15까지 예약시간일 경우
-      if (t->tm_hour + 9 == d->hour + 1 && t->tm_min <= d->min) {
-        d->hour = t->tm_hour + 9;
+      if (t->tm_hour == d->hour + 1 && t->tm_min <= d->min) {
+        d->hour = t->tm_hour;
         d->min = t->tm_min;
         return 1;
       }
@@ -291,8 +291,8 @@ int extendSeat(struct st_student* st[], int s[25], int size, struct tm * t) {
     }
         
     else { // ex. 11:30까지 예약시간일 경우
-      if (t->tm_hour + 9 == d->hour + 1 && t->tm_min >= d->min - 15 && t->tm_min <= d->min) {
-        d->hour = t->tm_hour + 9;
+      if (t->tm_hour == d->hour + 1 && t->tm_min >= d->min - 15 && t->tm_min <= d->min) {
+        d->hour = t->tm_hour;
         d->min = t->tm_min;
       }
       else {
@@ -318,7 +318,7 @@ int reportSeat(struct st_student* st[], int s[25], int size) {
         if (seat_temp - 1 == st[i]->seat) break;
       }
       
-      st[i-1]->penalty++; // 왜 i-1 하는거임??
+      st[i-1]->penalty++;
       return 1;
     }
     else return 0;
